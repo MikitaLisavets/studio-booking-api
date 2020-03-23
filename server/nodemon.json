@@ -5,7 +5,7 @@
     "node_modules"
   ],
   "watch": [
-    "server"
+    "src"
   ],
   "ext": "ts"
 }
