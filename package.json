@@ -29,5 +29,9 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "react": "^16.13.1",
     "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "client": "file:client",
+    "server": "file:server"
   }
 }
