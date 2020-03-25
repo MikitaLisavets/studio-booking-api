@@ -5,10 +5,16 @@
   "author": "Mikita Lisavets <mikita.lisavets@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "server:lint": "npm run lint --prefix server",
+    "lint": "npm run client:lint && npm run server:lint",
+    "client:lint": "eslint client/src/ --ext .js,.jsx,.ts,.tsx",
+    "client:build": "npm run build --prefix client",
+    "client:test": "npm run test --prefix client",
+    "client:dev": "npm run start --prefix client",
+    "server:lint": "eslint server/src/ --ext .js,.jsx,.ts,.tsx",
     "server:build": "npm run build --prefix server",
-    "server:start": "npm run start --prefix server",
-    "server:dev": "npm run dev --prefix server"
+    "server:test": "npm run test --prefix server",
+    "server:dev": "npm run dev --prefix server",
+    "server:start": "npm run start --prefix server"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.25.0",
