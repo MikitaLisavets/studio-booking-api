@@ -1,13 +1,7 @@
-import express, { Application, Request, Response } from 'express';
-
-const app: Application = express();
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Full-stack App Starter');
-});
+import App from './app';
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+App.listen(PORT, () => {
   console.log(`Server is running in http://localhost:${PORT}`);
 });
