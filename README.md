@@ -1,5 +1,5 @@
 # Full-stack app starter
-*** MongoDB / Express.js / React / Node / TypeScript ***
+***MongoDB / Express.js / React / Node / TypeScript***
 
 ## Get started:
 ```sh
