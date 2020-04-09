@@ -1,12 +1,14 @@
 import App from './app';
-import config from 'config';
+import dotenv from 'dotenv';
 // import mongoose from 'mongoose';
 
-const PORT = config.get('port') || 3000;
+dotenv.config()
+
+const PORT = process.env.PORT || 3001;
 
 async function start(): Promise<void> {
   try {
-    // await mongoose.connect(config.get('mongoUri'), {
+    // await mongoose.connect(process.env.MONGODB_URI, {
     //   useNewUrlParser: true,
     //   useUnifiedTopology: true,
     //   useCreateIndex: true
