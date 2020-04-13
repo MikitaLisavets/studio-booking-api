@@ -1,0 +1,42 @@
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript-express
+
+service:
+  name: studio-booking
+
+custom:
+  tableName: demo-users
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'}
+  region: eu-north-1
+  environment:
+    tableName: ${self:custom.tableName}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
+
+functions:
+  api:
+    handler: src/server.handler
+    events:
+      - http: 'ANY {proxy+}'
+
+resources:
+  Resources:
+    UsersDynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tableName}
+        AttributeDefinitions:
+          - AttributeName: ID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ID
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
