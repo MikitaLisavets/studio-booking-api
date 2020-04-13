@@ -1,23 +1,12 @@
-import App from './app';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-
 dotenv.config();
 
-const PORT = process.env.PORT || 3001;
+import App from './app';
+import serverless from 'serverless-http';
 
-async function start(): Promise<void> {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true
-    });
-    App.listen(PORT, () => console.log(`Server is running in http://localhost:${PORT}`));
-  } catch (e) {
-    console.log('Server error:', e.message);
-    process.exit(1);
-  }
+if (process.env.NODE_ENV === 'express') {
+  const PORT = process.env.PORT;
+  App.listen(process.env.PORT, () => console.log(`Server is running in http://localhost:${PORT}`));
 }
 
-start();
+module.exports.handler = serverless(App);
