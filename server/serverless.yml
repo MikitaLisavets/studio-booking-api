@@ -3,7 +3,7 @@ plugins:
   - serverless-plugin-typescript-express
 
 service:
-  name: studio-booking
+  name: studio-booking-api
 
 custom:
   tableName: demo-users
