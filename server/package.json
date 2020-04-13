@@ -4,15 +4,17 @@
   "private": true,
   "scripts": {
     "build": "rimraf build && tsc -pretty",
-    "start": "npm run build && node build/server.js",
+    "start": "NODE_ENV=express npm run build && node build/server.js",
     "test": "jest src",
-    "dev": "nodemon src/server.ts",
+    "dev": "NODE_ENV=express nodemon src/server.ts",
     "offline": "serverless offline start"
   },
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
     "aws-sdk": "^2.656.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "serverless-http": "^2.3.2",
     "serverless-offline": "^6.1.4",
