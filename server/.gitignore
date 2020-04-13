@@ -24,3 +24,6 @@ yarn-error.log*
 
 # API keys and secrets
 .env
+
+# serverless
+.serverless
