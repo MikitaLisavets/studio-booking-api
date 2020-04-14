@@ -1,7 +1,6 @@
 {
-  "name": "server",
+  "name": "studio-booking-api",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "build": "rimraf build && tsc -pretty",
     "start": "NODE_ENV=express npm run build && node build/server.js",
