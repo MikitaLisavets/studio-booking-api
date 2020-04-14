@@ -21,6 +21,12 @@ provider:
         - dynamodb:*
       Resource: '*'
 
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+
 functions:
   api:
     handler: src/server.handler
