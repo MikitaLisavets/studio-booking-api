@@ -11,10 +11,14 @@ jobs:
     - uses: actions/checkout@master
     - uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
-    - name: npm install
-      run: npm install
-    - name: serverless deploy
+        node-version: '12.x'
+    - name: Yarn Install
+      run: |
+          yarn install
+    - name: Unit Tests
+      run: |
+        yarn test
+    - name: Serverless Deploy
       uses: serverless/github-action@master
       with:
         args: deploy
