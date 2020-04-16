@@ -12,7 +12,13 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
-  region: eu-north-1
+  region: ${opt:region, 'eu-north-1'}
+  stackName: ${self:service.name}-stack
+  apiName: ${self:service.name}
+  deploymentBucket:
+    name: ${self:service.name}
+    blockPublicAccess: true
+  deploymentPrefix: serverless
   environment:
     tableName: ${self:custom.tableName}
   iamRoleStatements:
@@ -20,12 +26,6 @@ provider:
       Action:
         - dynamodb:*
       Resource: '*'
-
-package:
-  exclude:
-    - node_modules/**
-    - .gitignore
-    - .git/**
 
 functions:
   api:
