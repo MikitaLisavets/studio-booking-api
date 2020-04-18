@@ -7,18 +7,14 @@ service:
 
 custom:
   tableName: demo-users
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-north-1'}
 
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'eu-north-1'}
-  stackName: ${self:service.name}-stack
-  apiName: ${self:service.name}
-  deploymentBucket:
-    name: ${self:service.name}
-    blockPublicAccess: true
-  deploymentPrefix: serverless
+  stage: ${self:custom.stage}
+  region: ${self:custom.region}
   environment:
     tableName: ${self:custom.tableName}
   iamRoleStatements:
@@ -34,15 +30,8 @@ functions:
       - http: 'ANY {proxy+}'
 
 resources:
-  Resources:
-    UsersDynamoDbTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: ${self:custom.tableName}
-        AttributeDefinitions:
-          - AttributeName: ID
-            AttributeType: S
-        KeySchema:
-          - AttributeName: ID
-            KeyType: HASH
-        BillingMode: PAY_PER_REQUEST
+  - ${file(resources/api-gateway-errors.yml)}
+  - ${file(resources/dynamodb-table.yml)}
+  - ${file(resources/s3-bucket.yml)}
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
