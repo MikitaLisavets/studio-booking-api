@@ -1,6 +1,5 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import DB from './db';
 import cognitoProvider from './cognito';
 
@@ -8,7 +7,7 @@ const App: Application = express();
 
 // middlewares
 App.use(cors());
-App.use(bodyParser.json());
+App.use(express.json());
 
 
 App.post('/confirmSignUp', (req: Request, res: Response) => {
@@ -18,8 +17,8 @@ App.post('/confirmSignUp', (req: Request, res: Response) => {
     Username: req.body.email
   };
 
-  cognitoProvider.confirmSignUp(params, function(err, data) {
-    if (err) return res.send('error ' + err);
+  cognitoProvider.confirmSignUp(params, function(error, data) {
+    if (error) return res.status(500).send({ error });
     res.send(data);
   });
 });
@@ -37,8 +36,8 @@ App.post('/signUp', (req: Request, res: Response) => {
     ]
   };
 
-  cognitoProvider.signUp(params, (err, data) => {
-    if (err) return res.send('error ' + err);
+  cognitoProvider.signUp(params, (error, data) => {
+    if (error) return res.status(500).send({ error });
     res.send(data);
   });
 });
@@ -49,8 +48,8 @@ App.post('/getUser', (req: Request, res: Response) => {
     Username: req.body.email
   };
 
-  cognitoProvider.adminGetUser(params, (err, data) => {
-    if (err) return res.send('error ' + err);
+  cognitoProvider.adminGetUser(params, (error, data) => {
+    if (error) return res.status(500).send({ error });
     res.send(data);
   });
 });
@@ -58,8 +57,8 @@ App.post('/getUser', (req: Request, res: Response) => {
 App.post('/listUsers', (req: Request, res: Response) => {
   cognitoProvider.listUsers({
     UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID
-  }, (err, data) =>  {
-    if (err) return res.send('error ' + err);
+  }, (error, data) =>  {
+    if (error) return res.status(500).send({ error });
     res.send(data.Users);
   });
 });
