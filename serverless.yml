@@ -8,7 +8,7 @@ service:
 custom:
   tableName: demo-users
   stage: ${opt:stage, 'dev'}
-  region: ${opt:region, 'eu-north-1'}
+  region: ${opt:region, 'eu-central-1'}
 
 provider:
   name: aws
