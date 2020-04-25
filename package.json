@@ -6,7 +6,7 @@
     "start": "NODE_ENV=express npm run build && node build/server.js",
     "test": "jest src",
     "dev": "NODE_ENV=express nodemon src/server.ts",
-    "offline": "serverless offline start",
+    "offline": "serverless offline start --httpPort 3010",
     "lint": "eslint src --ext .js,.ts"
   },
   "dependencies": {
@@ -14,7 +14,6 @@
     "@typescript-eslint/eslint-plugin": "^2.28.0",
     "@typescript-eslint/parser": "^2.28.0",
     "aws-sdk": "^2.656.0",
-    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "eslint-plugin-jest": "^23.8.2",
