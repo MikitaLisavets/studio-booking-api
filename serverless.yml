@@ -22,6 +22,10 @@ provider:
       Action:
         - dynamodb:*
       Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - 'cognito-idp:*'
+      Resource: '*'
 
 functions:
   api:
