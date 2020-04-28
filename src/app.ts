@@ -1,7 +1,8 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
-import DB from './db';
-import cognitoProvider from './cognito';
+import DB from './services/dynamodb';
+import signUpRouter from './routes/signUp';
+import { cognitoProvider } from './services/cognito';
 
 const App: Application = express();
 
@@ -9,6 +10,8 @@ const App: Application = express();
 App.use(cors());
 App.use(express.json());
 
+// routes
+App.use('/signUp', signUpRouter);
 
 App.post('/confirmSignUp', (req: Request, res: Response) => {
   const params = {
@@ -18,25 +21,6 @@ App.post('/confirmSignUp', (req: Request, res: Response) => {
   };
 
   cognitoProvider.confirmSignUp(params, function(error, data) {
-    if (error) return res.status(500).send({ error });
-    res.send(data);
-  });
-});
-
-App.post('/signUp', (req: Request, res: Response) => {
-  const params ={
-    ClientId: process.env.AWS_APP_CLIENT_ID,
-    Password: req.body.password,
-    Username: req.body.email,
-    UserAttributes: [
-      { Name: 'email', Value: req.body.email }
-    ],
-    ValidationData: [
-      { Name: 'email', Value: req.body.email },
-    ]
-  };
-
-  cognitoProvider.signUp(params, (error, data) => {
     if (error) return res.status(500).send({ error });
     res.send(data);
   });
@@ -65,10 +49,7 @@ App.post('/listUsers', (req: Request, res: Response) => {
 
 App.post('/getDataFromDB', async (req: Request, res: Response) => {
   const ID = req.body.id;
-  const data = await DB.get(ID).catch(err => {
-    console.log('error in Dynamo Get', err);
-    return null;
-  });
+  const data = await DB.get(ID).catch(err => err);
 
   res.send(data);
 });
