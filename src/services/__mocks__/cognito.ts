@@ -4,3 +4,10 @@ export function signUp({ password, email }) {
     reject({ message: 'errorMessage', code: 'errorCode' });
   });
 }
+
+export function confirmSignUp({ confirmationCode, email }) {
+  return new Promise((resolve, reject) => {
+    if (confirmationCode && email) resolve({ success: true });
+    reject({ message: 'errorMessage', code: 'errorCode' });
+  });
+}

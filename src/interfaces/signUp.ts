@@ -1,13 +1,13 @@
-export interface Request {
+export interface SignUpRequest {
   email?: string;
   password?: string;
 }
 
-export interface SuccessResponse {
+export interface SignUpSuccessResponse {
   UserConfirmed: boolean;
 }
 
-export interface FailureResponse {
+export interface SignUpFailureResponse {
   message: string;
   code: string;
 }
