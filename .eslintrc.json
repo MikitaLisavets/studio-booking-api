@@ -1,7 +1,10 @@
 {
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "extends": ["eslint:recommended"],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module"
@@ -13,36 +16,26 @@
     "indent": [2, 2],
     "padded-blocks": [2, "never"]
   },
-  "overrides": [{
-    "files": ["*.ts", "*.tsx"],
-    "excludedFiles": ["*.test.js"],
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "env": {
-      "es6": true,
-      "browser": true
-    },
-    "extends": [
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ]},
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "@typescript-eslint"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ]},
     {
       "files": ["*.test.js"],
       "plugins": ["jest"],
       "env": {
-        "es6": true,
-        "node": true,
         "jest/globals": true
       },
       "extends": [
         "plugin:jest/recommended"
       ]
     }
-  ],
-  "settings": {
-    "react": {
-      "version": "latest"
-    }
-  }
+  ]
 }
