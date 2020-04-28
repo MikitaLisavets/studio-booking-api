@@ -19,7 +19,6 @@ const DB = {
     if (!data || !data.Item) {
       throw Error(`There was an error fetching the data for ID of ${ID} from ${TableName}`);
     }
-    console.log(data);
 
     return data.Item;
   },

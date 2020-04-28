@@ -5,6 +5,7 @@
     "build": "rimraf build && tsc -pretty",
     "start": "NODE_ENV=express npm run build && node build/server.js",
     "test": "jest src",
+    "test:watch": "jest src --watch",
     "dev": "NODE_ENV=express nodemon src/server.ts",
     "offline": "serverless offline start --httpPort 3010",
     "lint": "eslint src --ext .js,.ts"
