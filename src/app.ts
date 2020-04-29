@@ -3,6 +3,7 @@ import cors from 'cors';
 import DB from './services/dynamodb';
 import signUpRouter from './routes/signUp';
 import confirmSignUpRouter from './routes/confirmSignUp';
+import getUserRouter from './routes/getUser';
 import { cognitoProvider } from './services/cognito';
 
 const App: Application = express();
@@ -14,18 +15,7 @@ App.use(express.json());
 // routes
 App.use('/signUp', signUpRouter);
 App.use('/confirmSignUp', confirmSignUpRouter);
-
-App.post('/getUser', (req: Request, res: Response) => {
-  const params = {
-    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
-    Username: req.body.email
-  };
-
-  cognitoProvider.adminGetUser(params, (error, data) => {
-    if (error) return res.status(500).send({ error });
-    res.send(data);
-  });
-});
+App.use('/getUser', getUserRouter);
 
 App.post('/listUsers', (req: Request, res: Response) => {
   cognitoProvider.listUsers({

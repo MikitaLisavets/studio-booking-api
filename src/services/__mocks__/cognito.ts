@@ -11,3 +11,10 @@ export function confirmSignUp({ confirmationCode, email }) {
     reject({ message: 'errorMessage', code: 'errorCode' });
   });
 }
+
+export function getUser({ email }) {
+  return new Promise((resolve, reject) => {
+    if (email) resolve({ UserStatus: 'CONFIRMED' });
+    reject({ message: 'errorMessage', code: 'errorCode' });
+  });
+}
