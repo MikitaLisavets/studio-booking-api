@@ -1,6 +1,6 @@
 import AWS, { AWSError } from  'aws-sdk';
 import { ConfirmSignUpRequest, SignUpRequest, GetUserRequest } from '../interfaces/cognito';
-import { AdminGetUserResponse, ConfirmSignUpResponse, SignUpResponse } from 'aws-sdk/clients/cognitoidentityserviceprovider';
+import { AdminGetUserResponse, ConfirmSignUpResponse, SignUpResponse, ListUsersResponse } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
 AWS.config.update({region: process.env.region});
 
@@ -49,6 +49,19 @@ export function getUser({ email }: GetUserRequest): Promise<AdminGetUserResponse
 
   return new Promise((resolve, reject) => {
     cognitoProvider.adminGetUser(params, (error, data) => {
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+}
+
+export function listUsers(): Promise<ListUsersResponse | AWSError> {
+  const params = {
+    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID
+  };
+
+  return new Promise((resolve, reject) => {
+    cognitoProvider.listUsers(params, (error, data) =>  {
       if (error) return reject(error);
       resolve(data);
     });

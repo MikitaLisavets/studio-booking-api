@@ -18,3 +18,9 @@ export function getUser({ email }) {
     reject({ message: 'errorMessage', code: 'errorCode' });
   });
 }
+
+export function listUsers() {
+  return new Promise((resolve) => {
+    resolve({ Users: [{ UserName: 'email@email.com' }] });
+  });
+}
