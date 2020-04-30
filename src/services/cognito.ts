@@ -1,15 +1,6 @@
-import AWS from  'aws-sdk';
-import {
-  SignUpRequest,
-  SignUpSuccessResponse,
-  SignUpFailureResponse
-} from '../interfaces/signUp';
-
-import {
-  ConfirmSignUpRequest,
-  ConfirmSignUpSuccessResponse,
-  ConfirmSignUpFailureResponse
-} from '../interfaces/confirmSignUp';
+import AWS, { AWSError } from  'aws-sdk';
+import { ConfirmSignUpRequest, SignUpRequest, GetUserRequest } from '../interfaces/cognito';
+import { AdminGetUserResponse, ConfirmSignUpResponse, SignUpResponse, ListUsersResponse } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
 AWS.config.update({region: process.env.region});
 
@@ -18,7 +9,7 @@ export const cognitoProvider = new AWS.CognitoIdentityServiceProvider({
   region: process.env.region
 });
 
-export function signUp({ email, password }: SignUpRequest): Promise<SignUpSuccessResponse | SignUpFailureResponse> {
+export function signUp({ email, password }: SignUpRequest): Promise<SignUpResponse | AWSError> {
   const params = {
     ClientId: process.env.AWS_APP_CLIENT_ID,
     Password: password,
@@ -35,7 +26,7 @@ export function signUp({ email, password }: SignUpRequest): Promise<SignUpSucces
   });
 }
 
-export function confirmSignUp({ email, confirmationCode }: ConfirmSignUpRequest): Promise<ConfirmSignUpSuccessResponse | ConfirmSignUpFailureResponse> {
+export function confirmSignUp({ email, confirmationCode }: ConfirmSignUpRequest): Promise<ConfirmSignUpResponse | AWSError> {
   const params = {
     ClientId: process.env.AWS_APP_CLIENT_ID,
     ConfirmationCode: confirmationCode,
@@ -46,6 +37,33 @@ export function confirmSignUp({ email, confirmationCode }: ConfirmSignUpRequest)
     cognitoProvider.confirmSignUp(params, (error) => {
       if (error) return reject(error);
       resolve({ success: true });
+    });
+  });
+}
+
+export function getUser({ email }: GetUserRequest): Promise<AdminGetUserResponse | AWSError> {
+  const params = {
+    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
+    Username: email
+  };
+
+  return new Promise((resolve, reject) => {
+    cognitoProvider.adminGetUser(params, (error, data) => {
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+}
+
+export function listUsers(): Promise<ListUsersResponse | AWSError> {
+  const params = {
+    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID
+  };
+
+  return new Promise((resolve, reject) => {
+    cognitoProvider.listUsers(params, (error, data) =>  {
+      if (error) return reject(error);
+      resolve(data);
     });
   });
 }

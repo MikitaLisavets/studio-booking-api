@@ -3,7 +3,8 @@ import cors from 'cors';
 import DB from './services/dynamodb';
 import signUpRouter from './routes/signUp';
 import confirmSignUpRouter from './routes/confirmSignUp';
-import { cognitoProvider } from './services/cognito';
+import getUserRouter from './routes/getUser';
+import listUsersRouter from './routes/listUsers';
 
 const App: Application = express();
 
@@ -14,28 +15,10 @@ App.use(express.json());
 // routes
 App.use('/signUp', signUpRouter);
 App.use('/confirmSignUp', confirmSignUpRouter);
+App.use('/getUser', getUserRouter);
+App.use('/listUsers', listUsersRouter);
 
-App.post('/getUser', (req: Request, res: Response) => {
-  const params = {
-    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
-    Username: req.body.email
-  };
-
-  cognitoProvider.adminGetUser(params, (error, data) => {
-    if (error) return res.status(500).send({ error });
-    res.send(data);
-  });
-});
-
-App.post('/listUsers', (req: Request, res: Response) => {
-  cognitoProvider.listUsers({
-    UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID
-  }, (error, data) =>  {
-    if (error) return res.status(500).send({ error });
-    res.send(data.Users);
-  });
-});
-
+// DynamoDB
 App.post('/getDataFromDB', async (req: Request, res: Response) => {
   const ID = req.body.id;
   const data = await DB.get(ID).catch(err => err);
