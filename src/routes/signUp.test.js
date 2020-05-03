@@ -23,7 +23,7 @@ describe('signUpRoute', () => {
     });
 
     it('returns error', async () => {
-      expect(response.body).toEqual({ error: { message: 'errorMessage', code: 'errorCode' } });
+      expect(response.body).toEqual({ message: 'errorMessage', code: 'errorCode' });
     });
   });
 
