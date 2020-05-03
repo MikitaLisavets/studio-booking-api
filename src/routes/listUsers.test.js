@@ -19,6 +19,6 @@ describe('listUsersRoute', () => {
   });
 
   it('returns list of users', () => {
-    expect(response.body).toEqual([{ UserName: 'email@email.com' }]);
+    expect(response.body).toEqual({ Users: [{ UserName: 'email@email.com' }]});
   });
 });
