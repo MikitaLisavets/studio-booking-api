@@ -1,16 +1,16 @@
 jest.mock('../services/cognito');
 
 import express from 'express';
-import getUserRoute from './getUser';
+import getAdminUserRoute from './getAdminUser';
 import request from 'supertest';
 
-describe('getUserRoute', () => {
+describe('getAdminUserRoute', () => {
   let app, response;
 
   beforeAll(() => {
     app = express();
     app.use(express.json())
-      .use(getUserRoute);
+      .use(getAdminUserRoute);
   });
 
   describe('when there is no email', () => {

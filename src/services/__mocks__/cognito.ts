@@ -12,7 +12,7 @@ export function confirmSignUp({ confirmationCode, email }) {
   });
 }
 
-export function getUser({ email }) {
+export function getAdminUser({ email }) {
   return new Promise((resolve, reject) => {
     if (email) resolve({ UserStatus: 'CONFIRMED' });
     reject({ message: 'errorMessage', code: 'errorCode' });

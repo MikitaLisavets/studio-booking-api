@@ -41,7 +41,7 @@ export function confirmSignUp({ email, confirmationCode }: ConfirmSignUpRequest)
   });
 }
 
-export function getUser({ email }: GetUserRequest): Promise<AdminGetUserResponse | AWSError> {
+export function getAdminUser({ email }: GetUserRequest): Promise<AdminGetUserResponse | AWSError> {
   const params = {
     UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
     Username: email

@@ -3,7 +3,7 @@ import cors from 'cors';
 import DB from './services/dynamodb';
 import signUpRouter from './routes/signUp';
 import confirmSignUpRouter from './routes/confirmSignUp';
-import getUserRouter from './routes/getUser';
+import getAdminUserRouter from './routes/getAdminUser';
 import listUsersRouter from './routes/listUsers';
 
 const App: Application = express();
@@ -15,7 +15,7 @@ App.use(express.json());
 // routes
 App.use('/signUp', signUpRouter);
 App.use('/confirmSignUp', confirmSignUpRouter);
-App.use('/getUser', getUserRouter);
+App.use('/getAdminUser', getAdminUserRouter);
 App.use('/listUsers', listUsersRouter);
 
 // DynamoDB
