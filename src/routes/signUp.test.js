@@ -18,12 +18,12 @@ describe('signUpRoute', () => {
       response = await request(app).post('/');
     });
 
-    it('returns status code 500', async () => {
-      expect(response.status).toEqual(500);
+    it('returns status code 400', async () => {
+      expect(response.status).toEqual(400);
     });
 
     it('returns error', async () => {
-      expect(response.body).toEqual({ message: 'errorMessage', code: 'errorCode' });
+      expect(response.body).toEqual({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
     });
   });
 
