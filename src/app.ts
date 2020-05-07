@@ -5,6 +5,8 @@ import signUpRouter from './routes/signUp';
 import confirmSignUpRouter from './routes/confirmSignUp';
 import getAdminUserRouter from './routes/getAdminUser';
 import listUsersRouter from './routes/listUsers';
+import loginRouter from './routes/login';
+import updateSessionRouter from './routes/updateSession';
 
 const App: Application = express();
 
@@ -17,6 +19,8 @@ App.use('/signUp', signUpRouter);
 App.use('/confirmSignUp', confirmSignUpRouter);
 App.use('/getAdminUser', getAdminUserRouter);
 App.use('/listUsers', listUsersRouter);
+App.use('/login', loginRouter);
+App.use('/updateSession', updateSessionRouter);
 
 // DynamoDB
 App.post('/getDataFromDB', async (req: Request, res: Response) => {
