@@ -3,11 +3,24 @@ export interface ConfirmSignUpRequest {
   confirmationCode?: string;
 }
 
-export interface GetUserRequest {
+export interface GetAdminUserRequest {
   email?: string;
 }
 
 export interface SignUpRequest {
   email?: string;
   password?: string;
+}
+
+export interface GetTokenRequest {
+  email: string;
+  password: string;
+}
+
+export interface RefreshTokenRequest {
+  refreshToken: string;
+}
+
+export interface GetUserRequest {
+  accessToken: string;
 }

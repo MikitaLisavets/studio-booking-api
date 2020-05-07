@@ -1,19 +1,19 @@
 jest.mock('../services/cognito');
 
 import express from 'express';
-import signUpRoute from './signUp';
+import updateSessionRoute from './updateSession';
 import request from 'supertest';
 
-describe('signUpRoute', () => {
+describe('loginRoute', () => {
   let app, response;
 
-  beforeAll(() => {
+  beforeAll(async () => {
     app = express();
     app.use(express.json())
-      .use(signUpRoute);
+      .use(updateSessionRoute);
   });
 
-  describe('when there is no password or email', () => {
+  describe('when there is no refresh token', () => {
     beforeAll(async () => {
       response = await request(app).post('/');
     });
@@ -27,9 +27,9 @@ describe('signUpRoute', () => {
     });
   });
 
-  describe('when there is both password and email', () => {
+  describe('when there is refresh token', () => {
     beforeAll( async () => {
-      response = await request(app).post('/').send({ email: 'email', password: 'password' });
+      response = await request(app).post('/').send({ token: 'RefreshToken' });
     });
 
     it('returns status code 200', () => {
@@ -37,7 +37,12 @@ describe('signUpRoute', () => {
     });
 
     it('returns unconfirmed user', () => {
-      expect(response.body).toEqual({ UserConfirmed: false });
+      expect(response.body).toEqual({
+        token: 'RefreshToken',
+        user: {
+          email: 'email@email.com',
+        },
+      });
     });
   });
 });

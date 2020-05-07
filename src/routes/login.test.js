@@ -1,16 +1,16 @@
 jest.mock('../services/cognito');
 
 import express from 'express';
-import signUpRoute from './signUp';
+import loginRoute from './login';
 import request from 'supertest';
 
-describe('signUpRoute', () => {
+describe('loginRoute', () => {
   let app, response;
 
   beforeAll(() => {
     app = express();
     app.use(express.json())
-      .use(signUpRoute);
+      .use(loginRoute);
   });
 
   describe('when there is no password or email', () => {
@@ -37,7 +37,12 @@ describe('signUpRoute', () => {
     });
 
     it('returns unconfirmed user', () => {
-      expect(response.body).toEqual({ UserConfirmed: false });
+      expect(response.body).toEqual({
+        token: 'RefreshToken',
+        user: {
+          email: 'email@email.com',
+        },
+      });
     });
   });
 });
