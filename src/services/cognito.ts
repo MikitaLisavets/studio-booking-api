@@ -9,13 +9,13 @@ export const cognitoProvider = new AWS.CognitoIdentityServiceProvider({
   region: process.env.region
 });
 
-export function signUp({ email, password }: SignUpRequest): Promise<SignUpResponse | AWSError> {
+export function signUp({ email, phoneNumber, password }: SignUpRequest): Promise<SignUpResponse | AWSError> {
   const params = {
     ClientId: process.env.AWS_APP_CLIENT_ID,
     Password: password,
     Username: email,
-    UserAttributes: [{ Name: 'email', Value: email }],
-    ValidationData: [{ Name: 'email', Value: email }]
+    UserAttributes: [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phoneNumber }],
+    ValidationData: [{ Name: 'email', Value: email }, { Name: 'phone_number', Value: phoneNumber }]
   };
 
   return new Promise((resolve, reject) => {
