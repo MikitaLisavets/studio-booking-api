@@ -1,6 +1,6 @@
-export function signUp({ password, email }) {
+export function signUp({ password, phoneNumber, email }) {
   return new Promise((resolve, reject) => {
-    if (password && email) return resolve({ UserConfirmed: false });
+    if (password && phoneNumber && email) return resolve({ UserConfirmed: false });
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }
@@ -27,21 +27,21 @@ export function listUsers() {
 
 export function initiateAuth(params) {
   return new Promise((resolve, reject) => {
-    if (params) return resolve({ AuthenticationResult: { AccessToken: 'AccessToken', RefreshToken: 'RefreshToken' } })
+    if (params) return resolve({ AuthenticationResult: { AccessToken: 'AccessToken', RefreshToken: 'RefreshToken' } });
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }
 
 export function getToken({ email, password }){
   return new Promise((resolve, reject) => {
-    if (email && password ) return resolve({ AuthenticationResult: { AccessToken: 'AccessToken', RefreshToken: 'RefreshToken' } })
+    if (email && password ) return resolve({ AuthenticationResult: { AccessToken: 'AccessToken', RefreshToken: 'RefreshToken' } });
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }
 
 export function refreshTokens({ refreshToken }) {
   return new Promise((resolve, reject) => {
-    if ( refreshToken ) return resolve({ AuthenticationResult: { AccessToken: 'AccessToken' } })
+    if ( refreshToken ) return resolve({ AuthenticationResult: { AccessToken: 'AccessToken' } });
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }
@@ -49,7 +49,7 @@ export function refreshTokens({ refreshToken }) {
 
 export function getUser({ accessToken }) {
   return new Promise((resolve, reject) => {
-    if ( accessToken ) return resolve({ UserAttributes: [{ Name: 'email', Value: 'email@email.com' }] })
+    if ( accessToken ) return resolve({ UserAttributes: [{ Name: 'email', Value: 'email@email.com' }] });
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }

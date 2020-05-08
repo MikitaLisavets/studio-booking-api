@@ -13,7 +13,7 @@ describe('signUpRoute', () => {
       .use(signUpRoute);
   });
 
-  describe('when there is no password or email', () => {
+  describe('when there is no password or email or phoneNumber', () => {
     beforeAll(async () => {
       response = await request(app).post('/');
     });
@@ -27,9 +27,9 @@ describe('signUpRoute', () => {
     });
   });
 
-  describe('when there is both password and email', () => {
+  describe('when password and email and phoneNumber exist', () => {
     beforeAll( async () => {
-      response = await request(app).post('/').send({ email: 'email', password: 'password' });
+      response = await request(app).post('/').send({ email: 'email', password: 'password', phoneNumber: '+123456789' });
     });
 
     it('returns status code 200', () => {
