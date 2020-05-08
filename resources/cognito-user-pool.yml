@@ -7,6 +7,50 @@ Resources:
         - email
       AutoVerifiedAttributes:
         - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 6
+          RequireLowercase: false
+          RequireNumbers: false
+          RequireSymbols: false
+          RequireUppercase: false
+      Schema:
+        - Name: email
+          Required: true
+        - Name: phone_number
+          Required: true
+      SmsConfiguration:
+        SnsCallerArn:
+          Fn::GetAtt: [CognitoUserPoolSMSRole, Arn]
+        ExternalId: ${self:custom.stage}-cognito-external-id
+
+  CognitoUserPoolSMSRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - cognito-idp.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                sts:ExternalId: ${self:custom.stage}-cognito-external-id
+      Policies:
+        - PolicyName: ${self:custom.stage}-cognito-sms-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Resource:
+                  - '*'
+                Action:
+                  - 'sns:publish'
+      RoleName: ${self:custom.stage}-cognito-sms-role
+
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -15,6 +59,8 @@ Resources:
         Ref: CognitoUserPool
       ExplicitAuthFlows:
         - ADMIN_NO_SRP_AUTH
+        - USER_PASSWORD_AUTH
+      RefreshTokenValidity: 3650
       GenerateSecret: false
 Outputs:
   UserPoolId:
