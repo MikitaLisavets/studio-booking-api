@@ -13,7 +13,7 @@ describe('confirmSignUpRoute', () => {
       .use(confirmSignUpRoute);
   });
 
-  describe('when there is no confirmation code or email', () => {
+  describe('when there is no confirmation code or email or password', () => {
     beforeAll(async () => {
       response = await request(app).post('/');
     });
@@ -27,9 +27,9 @@ describe('confirmSignUpRoute', () => {
     });
   });
 
-  describe('when there is both confirmation code and email', () => {
+  describe('when confirmation code and email and password are exist', () => {
     beforeAll( async () => {
-      response = await request(app).post('/').send({ email: 'email', confirmationCode: '12345678' });
+      response = await request(app).post('/').send({ email: 'email', password: 'password', confirmationCode: '12345678' });
     });
 
     it('returns status code 200', () => {
@@ -37,7 +37,12 @@ describe('confirmSignUpRoute', () => {
     });
 
     it('returns unconfirmed user', () => {
-      expect(response.body).toEqual({ success: true });
+      expect(response.body).toEqual({
+        token: 'RefreshToken',
+        user: {
+          email: 'email@email.com',
+        },
+      });
     });
   });
 });
