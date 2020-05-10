@@ -39,3 +39,4 @@ resources:
   - ${file(resources/s3-bucket.yml)}
   - ${file(resources/cognito-user-pool.yml)}
   - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(resources/cloudfront-distribution.yml)}
