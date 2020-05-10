@@ -19,37 +19,6 @@ Resources:
           Required: true
         - Name: phone_number
           Required: true
-      SmsConfiguration:
-        SnsCallerArn:
-          Fn::GetAtt: [CognitoUserPoolSMSRole, Arn]
-        ExternalId: ${self:custom.stage}-cognito-external-id
-
-  CognitoUserPoolSMSRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - cognito-idp.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-            Condition:
-              StringEquals:
-                sts:ExternalId: ${self:custom.stage}-cognito-external-id
-      Policies:
-        - PolicyName: ${self:custom.stage}-cognito-sms-policy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Resource:
-                  - '*'
-                Action:
-                  - 'sns:publish'
-      RoleName: ${self:custom.stage}-cognito-sms-role
 
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
