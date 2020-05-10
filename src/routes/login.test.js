@@ -38,7 +38,6 @@ describe('loginRoute', () => {
 
     it('returns unconfirmed user', () => {
       expect(response.body).toEqual({
-        token: 'RefreshToken',
         user: {
           email: 'email@email.com',
         },

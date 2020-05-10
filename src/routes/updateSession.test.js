@@ -3,6 +3,7 @@ jest.mock('../services/cognito');
 import express from 'express';
 import updateSessionRoute from './updateSession';
 import request from 'supertest';
+import cookieParser from 'cookie-parser';
 
 describe('loginRoute', () => {
   let app, response;
@@ -10,26 +11,27 @@ describe('loginRoute', () => {
   beforeAll(async () => {
     app = express();
     app.use(express.json())
+      .use(cookieParser())
       .use(updateSessionRoute);
   });
 
   describe('when there is no refresh token', () => {
     beforeAll(async () => {
-      response = await request(app).post('/');
+      response = await request(app).post('/').set('Cookie', []);
     });
 
-    it('returns status code 400', () => {
-      expect(response.status).toEqual(400);
+    it('returns status code 401', () => {
+      expect(response.status).toEqual(401);
     });
 
     it('returns error', () => {
-      expect(response.body).toEqual({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
+      expect(response.body).toEqual({ message: 'Unauthorized error', code: 'unauthorized', statusCode: 401 });
     });
   });
 
   describe('when there is refresh token', () => {
     beforeAll( async () => {
-      response = await request(app).post('/').send({ token: 'RefreshToken' });
+      response = await request(app).post('/').send({ token: 'RefreshToken' }).set('Cookie', ['token=token']);
     });
 
     it('returns status code 200', () => {
@@ -38,7 +40,6 @@ describe('loginRoute', () => {
 
     it('returns unconfirmed user', () => {
       expect(response.body).toEqual({
-        token: 'RefreshToken',
         user: {
           email: 'email@email.com',
         },
