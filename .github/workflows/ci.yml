@@ -1,0 +1,22 @@
+name: CI dev branch
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        ref: dev
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - name: Yarn Install
+      run: |
+          yarn install
+    - name: Unit Tests
+      run: |
+        yarn test
