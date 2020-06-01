@@ -13,7 +13,7 @@ import logoutRouter from './routes/logout';
 const App: Application = express();
 
 // middlewares
-App.use(cors());
+App.use(cors({ credentials: true }));
 App.use(express.json());
 App.use(cookieParser());
 
