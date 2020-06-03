@@ -1,4 +1,4 @@
-name: CI - Deploy master branch
+name: Deploy master branch
 on:
   push:
     branches:

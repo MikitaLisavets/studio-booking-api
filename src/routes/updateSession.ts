@@ -3,21 +3,27 @@ import { getUser, refreshTokens } from '../services/cognito';
 import { InitiateAuthResponse, GetUserResponse } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 import convertAttributesToUser from '../utils/convertAttributesToUser';
 import { COOKIE_TOKEN, UNAUTHORIZED_ERROR, MAX_COOKIE_AGE } from '../constants';
+import { defaultErrorHandler } from '../utils/helpers';
 
 const router = express.Router();
 
 router.post('/', (req: Request, res: Response) => {
   const { token } = req.cookies;
+
+  if (!token) {
+    res.status(UNAUTHORIZED_ERROR.statusCode);
+    return defaultErrorHandler(res, UNAUTHORIZED_ERROR);
+  }
   
-  if (!token) return res.status(UNAUTHORIZED_ERROR.statusCode).send(UNAUTHORIZED_ERROR);
+  res.clearCookie(COOKIE_TOKEN);
 
   refreshTokens({ refreshToken: token })
     .then((tokens: InitiateAuthResponse) => getUser({ accessToken: tokens.AuthenticationResult?.AccessToken })
       .then((data: GetUserResponse) => res.cookie(COOKIE_TOKEN, token, { httpOnly: true, maxAge: MAX_COOKIE_AGE }).send({
         user: convertAttributesToUser(data.UserAttributes)
       }))
-      .catch(error => res.clearCookie(COOKIE_TOKEN).status(error.statusCode).send(error)))
-    .catch(error => res.clearCookie(COOKIE_TOKEN).status(error.statusCode).send(error));
+      .catch((error) => defaultErrorHandler(res, error)))
+    .catch((error) => defaultErrorHandler(res, error));
 });
 
 export default router;

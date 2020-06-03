@@ -1,3 +1,9 @@
+export interface GeneralError {
+  message: string;
+  code: string;
+  statusCode: number;
+}
+
 export interface ConfirmSignUpRequest {
   email?: string;
   confirmationCode?: string;
