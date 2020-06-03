@@ -1,20 +1,15 @@
 import express, { Request, Response } from 'express';
 import { getAdminUser } from '../services/cognito';
-import { AWSError } from 'aws-sdk';
+import { defaultErrorHandler } from '../utils/helpers';
 
 const router = express.Router();
 
 router.post('/', (req: Request, res: Response) => {
   const { email } = req.body || {};
 
-  function errorHandler(error: AWSError): void {
-    res.status(error.statusCode);
-    res.send(error);
-  }
-
   getAdminUser({ email})
     .then(data => res.send(data))
-    .catch(errorHandler);
+    .catch((error) => defaultErrorHandler(res, error));
 });
 
 export default router;
