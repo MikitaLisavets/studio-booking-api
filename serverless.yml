@@ -7,7 +7,7 @@ service:
 
 custom:
   tableName: demo-users
-  origin: ${opt:origin, '*'}
+  origin: ${opt:origin, 'https://www.studio-booking.tk'}
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-central-1'}
 
