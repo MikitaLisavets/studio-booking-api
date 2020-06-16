@@ -29,8 +29,8 @@ App.use('/updateSession', updateSessionRouter);
 App.use('/logout', logoutRouter);
 
 
-App.get('/test', (req: Request, res: Response) => {
-  res.send('Test response');
+App.get('/status', (req: Request, res: Response) => {
+  res.send('OK');
 });
 
 export default App;
