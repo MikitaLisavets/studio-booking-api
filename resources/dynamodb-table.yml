@@ -2,7 +2,7 @@ Resources:
   UsersDynamoDbTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ${self:custom.tableName}
+      TableName: ${self:custom.usersTableName}
       AttributeDefinitions:
         - AttributeName: ID
           AttributeType: S

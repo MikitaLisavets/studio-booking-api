@@ -6,7 +6,7 @@ service:
   name: studio-booking-api
 
 custom:
-  tableName: demo-users
+  usersTableName: users
   origin: ${opt:origin, 'https://www.studio-booking.tk'}
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-central-1'}
@@ -17,7 +17,7 @@ provider:
   stage: ${self:custom.stage}
   region: ${self:custom.region}
   environment:
-    tableName: ${self:custom.tableName}
+    usersTableName: ${self:custom.usersTableName}
     origin: ${self:custom.origin}
   iamRoleStatements:
     - Effect: Allow
