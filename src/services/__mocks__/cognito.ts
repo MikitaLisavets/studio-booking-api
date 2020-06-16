@@ -46,10 +46,9 @@ export function refreshTokens({ refreshToken }) {
   });
 }
 
-
 export function getUser({ accessToken }) {
   return new Promise((resolve, reject) => {
-    if ( accessToken ) return resolve({ UserAttributes: [{ Name: 'email', Value: 'email@email.com' }] });
+    if ( accessToken ) return resolve({ Username: '1', UserAttributes: [{ Name: 'email', Value: 'email@email.com' }] });
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }
