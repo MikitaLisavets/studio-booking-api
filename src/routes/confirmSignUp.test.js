@@ -1,4 +1,5 @@
 jest.mock('../services/cognito');
+jest.mock('../services/usersDB');
 
 import express from 'express';
 import confirmSignUpRoute from './confirmSignUp';

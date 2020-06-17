@@ -7,7 +7,7 @@ service:
 
 custom:
   usersTableName: users
-  origin: ${opt:origin, 'https://www.studio-booking.tk'}
+  origin: https://www.studio-booking.tk
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'eu-central-1'}
 
@@ -19,6 +19,7 @@ provider:
   environment:
     usersTableName: ${self:custom.usersTableName}
     origin: ${self:custom.origin}
+    region: ${self:custom.region}
   iamRoleStatements:
     - Effect: Allow
       Action:

@@ -1,6 +1,6 @@
 import { AttributeListType, AttributeType } from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
-type User = {
+export type User = {
   sub?: string;
   email?: string;
   email_verified?: string;

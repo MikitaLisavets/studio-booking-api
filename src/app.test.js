@@ -2,9 +2,9 @@ import app from './app';
 import request from 'supertest';
 
 describe('App', () => {
-  it('returns sample text', async () => {
-    const res = await request(app).get('/test');
+  it('returns app status', async () => {
+    const res = await request(app).get('/status');
     expect(res.status).toEqual(200);
-    expect(res.text).toEqual('Test response');
+    expect(res.text).toEqual('OK');
   });
 });
