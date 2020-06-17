@@ -5,7 +5,7 @@ import { AdminGetUserResponse, ConfirmSignUpResponse, SignUpResponse, ListUsersR
 AWS.config.update({region: process.env.region});
 
 export const cognitoProvider = new AWS.CognitoIdentityServiceProvider({
-  apiVersion: process.env.region,
+  apiVersion: '2016-04-19',
   region: process.env.region
 });
 
