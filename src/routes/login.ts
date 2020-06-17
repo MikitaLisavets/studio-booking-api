@@ -9,16 +9,19 @@ const router = express.Router();
 
 router.post('/', (req: Request, res: Response) => {
   const { email, password } = req.body || {};
+  let refreshToken: string;
 
   getToken({ email, password })
-    .then((tokens: InitiateAuthResponse) => getUser({ accessToken: tokens.AuthenticationResult?.AccessToken })
-      .then((data: GetUserResponse) => {
-        res.cookie(COOKIE_TOKEN, tokens.AuthenticationResult?.RefreshToken, { httpOnly: true, maxAge: MAX_COOKIE_AGE });
-        res.send({
-          user: convertAttributesToUser(data.UserAttributes),
-        });
-      })
-      .catch((error) => defaultErrorHandler(res, error)))
+    .then((tokens: InitiateAuthResponse) => {
+      refreshToken = tokens.AuthenticationResult?.RefreshToken;
+      return getUser({ accessToken: tokens.AuthenticationResult?.AccessToken });
+    })
+    .then((data: GetUserResponse) => {
+      res.cookie(COOKIE_TOKEN, refreshToken, { httpOnly: true, maxAge: MAX_COOKIE_AGE });
+      res.send({
+        user: convertAttributesToUser(data.UserAttributes),
+      });
+    })
     .catch((error) => defaultErrorHandler(res, error));
 });
 

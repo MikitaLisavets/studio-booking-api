@@ -18,11 +18,10 @@ router.post('/', (req: Request, res: Response) => {
   res.clearCookie(COOKIE_TOKEN);
 
   refreshTokens({ refreshToken: token })
-    .then((tokens: InitiateAuthResponse) => getUser({ accessToken: tokens.AuthenticationResult?.AccessToken })
-      .then((data: GetUserResponse) => res.cookie(COOKIE_TOKEN, token, { httpOnly: true, maxAge: MAX_COOKIE_AGE }).send({
-        user: convertAttributesToUser(data.UserAttributes)
-      }))
-      .catch((error) => defaultErrorHandler(res, error)))
+    .then((tokens: InitiateAuthResponse) => getUser({ accessToken: tokens.AuthenticationResult?.AccessToken }))
+    .then((data: GetUserResponse) => res.cookie(COOKIE_TOKEN, token, { httpOnly: true, maxAge: MAX_COOKIE_AGE }).send({
+      user: convertAttributesToUser(data.UserAttributes)
+    }))
     .catch((error) => defaultErrorHandler(res, error));
 });
 
