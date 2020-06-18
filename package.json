@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "rimraf build && tsc -pretty",
-    "start": "NODE_ENV=express npm run build && node build/server.js",
+    "start": "serverless offline start --httpPort 3010",
     "test": "jest src",
     "test:watch": "jest src --watch",
-    "dev": "NODE_ENV=express nodemon src/server.ts",
-    "offline": "serverless offline start --httpPort 3010",
     "lint": "eslint src --ext .js,.ts"
   },
   "dependencies": {
@@ -40,7 +38,6 @@
     "eslint": "^6.8.0",
     "eslint-plugin-security": "^1.4.0",
     "jest": "^25.3.0",
-    "nodemon": "^2.0.3",
     "rimraf": "^3.0.2",
     "supertest": "^4.0.2",
     "ts-jest": "^25.3.1",
