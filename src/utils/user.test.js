@@ -1,6 +1,42 @@
-import { convertDBAttributesToUser, convertUserToDBAttributes, mapOutputUser } from './user';
+import {
+  convertCognitoAttributesToUser,
+  convertDBAttributesToUser,
+  convertUserToDBAttributes,
+  mapOutputUser
+} from './user';
 
 describe('user utils', () => {
+  describe('convertCognitoAttributesToUser', () => {
+    it('returns default empty user object when attributes are empty', () => {
+      expect(convertCognitoAttributesToUser([])).toEqual({
+        ID: '',
+        email: '',
+        emailVerified: false,
+        phoneNumber: '',
+        phoneNumberVerified: false
+      });
+    });
+
+    it('returns user object when attributes', () => {
+      const attrs = [
+        { Name: 'sub', Value: 'abc123' },
+        { Name: 'email', Value: 'email@email.com' },
+        { Name: 'email_verified', Value: 'true'},
+        { Name: 'phone_number', Value: '+12345678' },
+        { Name: 'phone_number_verified', Value: 'false'}
+      ];
+  
+      expect(convertCognitoAttributesToUser(attrs)).toEqual({
+        ID: 'abc123',
+        email: 'email@email.com',
+        emailVerified: true,
+        phoneNumber: '+12345678',
+        phoneNumberVerified:  false
+      });
+    });
+  });
+
+
   describe('convertDBAttributesToUser', () => {
     it('returns empty user object when attributes are empty', () => {
       expect(convertDBAttributesToUser({})).toEqual({});
