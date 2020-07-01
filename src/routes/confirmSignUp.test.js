@@ -40,7 +40,11 @@ describe('confirmSignUpRoute', () => {
     it('returns unconfirmed user', () => {
       expect(response.body).toEqual({
         user: {
+          ID: 'abc123',
           email: 'email@email.com',
+          emailVerified: true,
+          phoneNumber: '',
+          phoneNumberVerified: false,
         },
       });
     });
