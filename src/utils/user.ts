@@ -9,7 +9,7 @@ export type User = {
   phoneNumberVerified?: boolean;
 }
 
-export type CognitoUser = {
+export type CognitoUserAttributes = {
   sub?: string;
   email?: string;
   email_verified?: boolean;
@@ -18,8 +18,8 @@ export type CognitoUser = {
 }
 
 export function convertCognitoAttributesToUser(attrs: AttributeListType): User {
-  const initUser: CognitoUser = {};
-  const userAttrs = attrs.reduce((user, attr: AttributeType) => ({ ...user, [attr.Name]: attr.Value }), initUser);
+  const initUserAttrs: CognitoUserAttributes = {};
+  const userAttrs = attrs.reduce((user, attr: AttributeType) => ({ ...user, [attr.Name]: attr.Value }), initUserAttrs);
   const isTrue = (str: unknown): boolean => str === 'true';
 
   return {
