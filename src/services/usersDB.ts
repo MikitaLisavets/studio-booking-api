@@ -1,5 +1,5 @@
 import AWS, { AWSError } from  'aws-sdk';
-import { User } from '../utils/convertAttributesToUser';
+import { User, convertUserToDBAttributes } from '../utils/user';
 import { PutItemOutput, GetItemOutput } from 'aws-sdk/clients/dynamodb';
 
 AWS.config.update({region: process.env.region});
@@ -23,16 +23,10 @@ export function getUserFromDB(id: string): Promise<GetItemOutput | AWSError> {
   });
 }
 
-export function putUserToDB(id: string, user: User): Promise<PutItemOutput | AWSError> {
+export function putUserToDB(user: User): Promise<PutItemOutput | AWSError> {
   const params = {
     TableName: usersTableName,
-    Item: {
-      ID: { S: id },
-      email: { S: user.email },
-      emailVerified: { S: user.email_verified },
-      phoneNumber: { S: user.phone_number },
-      phoneNumberVerified: { S: user.phone_number_verified }
-    }
+    Item: convertUserToDBAttributes(user)
   };
 
   return new Promise((resolve, reject) => {
