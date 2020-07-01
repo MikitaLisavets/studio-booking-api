@@ -48,7 +48,11 @@ export function refreshTokens({ refreshToken }) {
 
 export function getUser({ accessToken }) {
   return new Promise((resolve, reject) => {
-    if ( accessToken ) return resolve({ Username: '1', UserAttributes: [{ Name: 'email', Value: 'email@email.com' }] });
+    if ( accessToken ) return resolve({ Username: '1', UserAttributes: [
+      { Name: 'sub', Value: 'abc123', },
+      { Name: 'email', Value: 'email@email.com' },
+      { Name: 'email_verified', Value: 'true' }
+    ]});
     reject({ message: 'errorMessage', code: 'errorCode', statusCode: 400 });
   });
 }

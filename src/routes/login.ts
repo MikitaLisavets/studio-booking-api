@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express';
 import { getToken, getUser } from '../services/cognito';
 import { InitiateAuthResponse, GetUserResponse } from 'aws-sdk/clients/cognitoidentityserviceprovider';
-import convertAttributesToUser from '../utils/convertAttributesToUser';
 import { COOKIE_TOKEN, MAX_COOKIE_AGE } from '../constants';
 import { defaultErrorHandler } from '../utils/helpers';
+import { getUserFromDB } from '../services/usersDB';
+import { GetItemOutput } from 'aws-sdk/clients/dynamodb';
+import { convertDBAttributesToUser, convertCognitoAttributesToUser, User } from '../utils/user';
 
 const router = express.Router();
 
@@ -16,10 +18,12 @@ router.post('/', (req: Request, res: Response) => {
       refreshToken = tokens.AuthenticationResult?.RefreshToken;
       return getUser({ accessToken: tokens.AuthenticationResult?.AccessToken });
     })
-    .then((data: GetUserResponse) => {
+    .then((cognitoUser: GetUserResponse) => convertCognitoAttributesToUser(cognitoUser.UserAttributes))
+    .then((user: User) => getUserFromDB(user.ID))
+    .then((data: GetItemOutput) => {
       res.cookie(COOKIE_TOKEN, refreshToken, { httpOnly: true, maxAge: MAX_COOKIE_AGE });
       res.send({
-        user: convertAttributesToUser(data.UserAttributes),
+        user: convertDBAttributesToUser(data.Item),
       });
     })
     .catch((error) => defaultErrorHandler(res, error));

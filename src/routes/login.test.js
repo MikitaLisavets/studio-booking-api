@@ -1,4 +1,5 @@
 jest.mock('../services/cognito');
+jest.mock('../services/usersDB');
 
 import express from 'express';
 import loginRoute from './login';
@@ -40,6 +41,7 @@ describe('loginRoute', () => {
       expect(response.body).toEqual({
         user: {
           email: 'email@email.com',
+          emailVerified: true,
         },
       });
     });
